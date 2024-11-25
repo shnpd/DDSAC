@@ -13,7 +13,7 @@ import (
 var client = Wallet.InitWallet()
 
 // EntireSendTrans 完整交易发送，包括交易生成、交易签名、交易广播，最终返回广播的交易id
-func EntireSendTrans(sourceAddr, destAddr string, amount int64, embedMsg *string) (string, error) {
+func EntireSendTrans(sourceAddr, destAddr string, amount int64, embedMsg *[]byte) (string, error) {
 	rawTx, err := GenerateTrans(sourceAddr, destAddr, amount)
 	if err != nil {
 		return "", err
@@ -34,15 +34,14 @@ func GenerateTrans(sourceAddr, destAddr string, amount int64) (*wire.MsgTx, erro
 	// 筛选源地址的UTXO
 	utxos, _ := client.ListUnspent()
 	var sourceUTXO btcjson.ListUnspentResult
-	for _, utxo := range utxos {
-		if utxo.Amount <= 0.1 {
-			continue
-		}
+	for i, utxo := range utxos {
 		if utxo.Address == sourceAddr {
 			sourceUTXO = utxo
 			break
 		}
-
+		if i == len(utxos)-1 {
+			return nil, fmt.Errorf("UTXO not found")
+		}
 	}
 	// 构造输入
 	var inputs []btcjson.TransactionInput
@@ -66,7 +65,7 @@ func GenerateTrans(sourceAddr, destAddr string, amount int64) (*wire.MsgTx, erro
 }
 
 // SignTrans 签名交易，输入的embedMsg为计算签名所使用的随机因子，返回签名后的交易
-func SignTrans(rawTx *wire.MsgTx, embedMsg *string) (*wire.MsgTx, error) {
+func SignTrans(rawTx *wire.MsgTx, embedMsg *[]byte) (*wire.MsgTx, error) {
 	signedTx, complete, err, _ := client.SignRawTransaction(rawTx, embedMsg)
 	if err != nil {
 		return nil, fmt.Errorf("error signing transaction: %v", err)

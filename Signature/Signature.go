@@ -3,12 +3,28 @@ package Signature
 import (
 	"encoding/hex"
 	"github.com/btcsuite/btcd/btcutil"
+	"github.com/btcsuite/btcd/chaincfg/chainhash"
 	"github.com/btcsuite/btcd/rpcclient"
 	"github.com/btcsuite/btcd/txscript"
 	"github.com/btcsuite/btcd/wire"
 	"github.com/decred/dcrd/dcrec/secp256k1/v4/ecdsa"
+	"log"
 	"strconv"
 )
+
+// GetSigFromTx 从交易id查询交易签名
+func GetSigFromTx(client *rpcclient.Client, txid *chainhash.Hash) string {
+	rawtx, err := client.GetRawTransaction(txid)
+	if err != nil {
+		log.Fatal(err)
+	}
+	sigScript := hex.EncodeToString(rawtx.MsgTx().TxIn[0].SignatureScript)
+	sigScript = sigScript[2:]
+	length := sigScript[2:4]
+	lenSig, _ := strconv.ParseInt(length, 16, 10)
+	sigScript = sigScript[0 : 4+lenSig*2]
+	return sigScript
+}
 
 // getsigFromHex 从Hex字段提取签名
 func getsigFromHex(HexSig string) *ecdsa.Signature {
