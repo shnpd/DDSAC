@@ -30,7 +30,7 @@ var (
 )
 
 func main() {
-	client = Wallet.InitWallet()
+	client = Wallet.InitClient("127.0.0.1:28335", "simnet")
 	// afs：输出地址集合
 	var afs []string
 	addresses, _ := client.GetAddressesByAccount("default")

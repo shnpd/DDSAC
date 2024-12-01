@@ -25,7 +25,7 @@ var (
 )
 
 func main() {
-	client = Wallet.InitWallet()
+	client = Wallet.InitClient("127.0.0.1:28335", "simnet")
 	// 32byte 密钥对应256bit-AES
 	message := []byte("1234567890123")
 	// Encrypt the message
@@ -87,8 +87,8 @@ func buildTx(efs [][]string, lfs []int64, afs []string, keyQ []byte, sourceAddrP
 	for i := 0; i < N; i++ {
 		txpair := make([]string, 2)
 
-		ki1 := efs[i][0]
-		ki2 := efs[i][1]
+		ki1 := []byte(efs[i][0])
+		ki2 := []byte(efs[i][1])
 
 		amounti1 := lfs[2*i]
 		amounti2 := lfs[2*i+1]

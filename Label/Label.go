@@ -3,7 +3,6 @@ package Label
 
 import (
 	"DDSAC/Crypto"
-	"DDSAC/Wallet"
 	"fmt"
 	"github.com/btcsuite/btcd/chaincfg/chainhash"
 	"github.com/btcsuite/btcd/rpcclient"
@@ -21,8 +20,8 @@ func FilterLabel(client *rpcclient.Client, keyH []byte, wh int64) []*chainhash.H
 	lb := (i - 2) * wh
 	le := (i-1)*wh - 1
 
-	NAL := GetAmountFromBlock(lb, le)
-	Txs := GetTransFromBlock(hb, he)
+	NAL := GetAmountFromBlock(client, lb, le)
+	Txs := GetTransFromBlock(client, hb, he)
 	for _, txid := range Txs {
 		transaction, _ := client.GetTransaction(txid)
 		if transaction.Details[0].Category == "immature" || transaction.Details[1].Amount == 50 {
@@ -49,7 +48,7 @@ func GenerateLabel(client *rpcclient.Client, afs []string, keyH []byte, wh int64
 	windex := max_height / wh
 	hb := (windex - 1) * wh
 	he := windex*wh - 1
-	NAL := GetAmountFromBlock(hb, he)
+	NAL := GetAmountFromBlock(client, hb, he)
 	for _, v := range afs {
 		// 计算输出地址哈希
 		index := Crypto.PRF([]byte(v), keyH)
@@ -64,9 +63,8 @@ func GenerateLabel(client *rpcclient.Client, afs []string, keyH []byte, wh int64
 }
 
 // GetAmountFromBlock 获取区块高度从hb到he的交易的输出金额
-func GetAmountFromBlock(hb, he int64) []int64 {
+func GetAmountFromBlock(client *rpcclient.Client, hb, he int64) []int64 {
 	var amount []int64
-	client := Wallet.InitWallet()
 	//t, _ := client.GetBlockCount()
 	// 获取指定高度的区块哈希
 	for height := hb; height <= he; height++ {
@@ -92,9 +90,8 @@ func GetAmountFromBlock(hb, he int64) []int64 {
 }
 
 // GetTransFromBlock 获取区块高度从hb到he的所有交易
-func GetTransFromBlock(hb, he int64) []*chainhash.Hash {
+func GetTransFromBlock(client *rpcclient.Client, hb, he int64) []*chainhash.Hash {
 	var txids []*chainhash.Hash
-	client := Wallet.InitWallet()
 	//t, _ := client.GetBlockCount()
 	// 获取指定高度的区块哈希
 	for height := hb; height <= he; height++ {

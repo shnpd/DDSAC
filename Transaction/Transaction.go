@@ -10,7 +10,7 @@ import (
 	"github.com/btcsuite/btcd/wire"
 )
 
-var client = Wallet.InitWallet()
+var client = Wallet.InitClient("127.0.0.1:28335", "simnet")
 
 // EntireSendTrans 完整交易发送，包括交易生成、交易签名、交易广播，最终返回广播的交易id
 func EntireSendTrans(sourceAddr, destAddr string, amount int64, embedMsg *[]byte) (string, error) {

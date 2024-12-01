@@ -20,7 +20,7 @@ func main() {
 	keyH := []byte("1234567890123456")
 	keyQ := []byte("1234567890123456")
 	keyP := []byte("12345678901234567890123456789012")
-	client := Wallet.InitWallet()
+	client := Wallet.InitClient("127.0.0.1:28334", "mainnet")
 	trans := Label.FilterLabel(client, keyH, 10)
 	CTpairs := pairTrans(trans, client, keyF)
 	m := Extract(CTpairs, client, keyPi, keyP, keyQ, keyF)
