@@ -23,7 +23,7 @@ var (
 
 	keyP       = []byte("12345678901234567890123456789012")
 	client     *rpcclient.Client
-	miningAddr = "SYZPAZEjXy7S4jbsUHqWUgv2FYomsR3RVS"
+	miningAddr = "SXXfUx9qdszdhEgFJMq5625co9JrqbeRBv"
 )
 
 func main() {
@@ -39,57 +39,56 @@ func main() {
 	}
 
 	// lfs：标签集合 300ms
-	lfs := Label.GenerateLabel(client, afs, keyH, 10)
+	lfs := Label.GenerateLabel(client, afs, keyH, 100)
 
 	// 生成源地址对
-	sourceAddrPair := generateSourceAddrPair(2)
-	//for i := 0; i < 5; i++ {
-	client.Generate(1)
-	time.Sleep(time.Millisecond * 500)
+	sourceAddrPair := generateSourceAddrPair(14)
+	for i := 0; i < 5; i++ {
+		client.Generate(1)
+		time.Sleep(time.Millisecond * 500)
 
-	//// 交换输出输出地址方便测试交易时间（无需额外转入utxo）
-	//if i != 0 {
-	//	swapSourceDest(sourceAddrPair, afs)
-	//}
-	// 生成一个区块将预备交易上链
-	start := time.Now()
+		//// 交换输出输出地址方便测试交易时间（无需额外转入utxo）
+		if i != 0 {
+			swapSourceDest(sourceAddrPair, afs)
+		}
+		// 生成一个区块将预备交易上链
+		start := time.Now()
 
-	// 32byte 密钥对应256bit-AES
-	message := []byte("1111111111111")
-	// Encrypt the message
-	ciphertext, _ := Crypto.Encrypt(keyPi, message)
+		// 32byte 密钥对应256bit-AES
+		message := []byte("111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111")
+		// Encrypt the message
+		ciphertext, _ := Crypto.Encrypt(keyPi, message)
 
-	// 对密文进行分组
-	B := Segment.Segment(ciphertext)
+		// 对密文进行分组
+		B := Segment.Segment(ciphertext)
 
-	//	将分组密文加密作为嵌入随机数（加密操作保证密文的随机性）
+		//	将分组密文加密作为嵌入随机数（加密操作保证密文的随机性）
 
-	// efs：随机因子集合
-	var efs [][]string
-	for _, v := range B {
-		var t []string
-		vByte := Crypto.ConvertStr2Byte(v)
-		k1 := Crypto.PRP(vByte, keyP)
-		k2 := computeK2(k1, keyF)
-		t = append(t, string(k1))
-		t = append(t, string(k2))
-		efs = append(efs, t)
+		// efs：随机因子集合
+		var efs [][]string
+		for _, v := range B {
+			var t []string
+			vByte := Crypto.ConvertStr2Byte(v)
+			k1 := Crypto.PRP(vByte, keyP)
+			k2 := computeK2(k1, keyF)
+			t = append(t, string(k1))
+			t = append(t, string(k2))
+			efs = append(efs, t)
+		}
+		if i == 0 {
+			fmt.Println(len(efs))
+		}
+
+		// 构造并发送特殊交易
+		_, err := buildTx(efs, lfs, afs, keyQ, sourceAddrPair)
+		if err != nil {
+			fmt.Println(err)
+		}
+		duration := time.Since(start)
+
+		fmt.Println(duration)
+
 	}
-	//if i == 0 {
-	//	fmt.Println(len(efs))
-	//}
-
-	// 构造并发送特殊交易
-	transpair, err := buildTx(efs, lfs, afs, keyQ, sourceAddrPair)
-	if err != nil {
-		fmt.Println(err)
-	}
-	duration := time.Since(start)
-
-	//fmt.Println(tx)
-	fmt.Println(duration)
-	//}
-	fmt.Println(transpair)
 }
 func swapSourceDest(sourceAddr [][]string, afs []string) ([][]string, []string) {
 	cnt := 0
@@ -135,8 +134,8 @@ func buildTx(efs [][]string, lfs []int64, afs []string, keyQ []byte, sourceAddrP
 
 		txpair := make([]string, 2)
 
-		ki1 := efs[i][0]
-		ki2 := efs[i][1]
+		ki1 := []byte(efs[i][0])
+		ki2 := []byte(efs[i][1])
 
 		amounti1 := lfs[2*i] - 11*1e8
 		amounti2 := lfs[2*i+1] - 11*1e8
