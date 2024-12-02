@@ -12,6 +12,7 @@ import (
 	"github.com/btcsuite/btcd/rpcclient"
 	"github.com/decred/dcrd/dcrec/secp256k1/v4"
 	"strings"
+	"time"
 )
 
 func main() {
@@ -21,10 +22,13 @@ func main() {
 	keyQ := []byte("1234567890123456")
 	keyP := []byte("12345678901234567890123456789012")
 	client := Wallet.InitClient("127.0.0.1:28334", "mainnet")
+	start := time.Now()
 	trans := Label.FilterLabel(client, keyH, 10)
 	CTpairs := pairTrans(trans, client, keyF)
 	m := Extract(CTpairs, client, keyPi, keyP, keyQ, keyF)
 	fmt.Println(m)
+	duration := time.Since(start)
+	fmt.Println(duration)
 }
 
 // Extract 根据筛选出的交易对提取秘密消息
@@ -36,6 +40,10 @@ func Extract(CTpairs [][]*chainhash.Hash, client *rpcclient.Client, keyPi, keyP,
 		rawTxi, _ := client.GetRawTransaction(CTi)
 		rawTxj, _ := client.GetRawTransaction(CTj)
 		sigi := Signature.GetSignaruteFromTx(rawTxi)
+		// 只讨论最简单的P2PK签名
+		if sigi == nil {
+			continue
+		}
 		riModN := sigi.R()
 		ri := ECC.ModNScalarToField(&riModN)
 		y, _ := ECC.CalculateYFromX(&ri)
@@ -54,6 +62,9 @@ func Extract(CTpairs [][]*chainhash.Hash, client *rpcclient.Client, keyPi, keyP,
 		hjBytes, _ := Signature.GetHashFromTx(rawTxj, client)
 		hj.SetByteSlice(hjBytes)
 		sigj := Signature.GetSignaruteFromTx(rawTxj)
+		if sigj == nil {
+			continue
+		}
 		rj := sigj.R()
 		sj := sigj.S()
 
@@ -85,6 +96,9 @@ func Extract(CTpairs [][]*chainhash.Hash, client *rpcclient.Client, keyPi, keyP,
 	Blen := len(B)
 	// 预共享的结束标志
 	endFlag := Segment.ConvertToBinary([]byte{0x01, 0x02, 0x03, 0x04, 0x01, 0x02, 0x03, 0x04, 0x01, 0x02, 0x03, 0x04, 0x01, 0x02, 0x03, 0x04, 0x01, 0x02, 0x03, 0x04, 0x01, 0x02, 0x03, 0x04, 0x01, 0x02, 0x03, 0x04, 0x01, 0x02, 0x03, 0x04})
+	if Blen == 0 {
+		return ""
+	}
 	t := B[Blen-2] + B[Blen-1]
 	index := strings.Index(t, endFlag)
 	// 截取结束标志之前的内容
@@ -121,6 +135,10 @@ func pairTrans(trans []*chainhash.Hash, client *rpcclient.Client, keyF []byte) [
 		pair = append(pair, cti)
 		rawTx, _ := client.GetRawTransaction(cti)
 		sig := Signature.GetSignaruteFromTx(rawTx)
+		// 不讨论隔离见证
+		if sig == nil {
+			continue
+		}
 		r := sig.R()
 		// 计算纵坐标
 		r2 := ECC.ModNScalarToField(&r)
@@ -137,21 +155,25 @@ func pairTrans(trans []*chainhash.Hash, client *rpcclient.Client, keyF []byte) [
 		for _, ctj := range trans {
 			rawTx, _ = client.GetRawTransaction(cti)
 			sig = Signature.GetSignaruteFromTx(rawTx)
+			if sig == nil {
+				continue
+			}
 			r = sig.R()
 			if *point11.X.Bytes() == r.Bytes() || *point21.X.Bytes() == r.Bytes() {
 				pair = append(pair, ctj)
+				pairs = append(pairs, pair)
 				break
 			}
 		}
-		pairs = append(pairs, pair)
 	}
 	//return pairs
 	//	直接返回预先计算好的分组
-	tx1, _ := chainhash.NewHashFromStr("838bb8f586b5d1e5e76b77c7372b5ecb263b89a9a218771a65b9e3b88b1d39cd")
-	tx2, _ := chainhash.NewHashFromStr("6f9722a9ba54ca9bbed06464b8160d64c64fe78095e342993ad333f65f7902b4")
-	tx3, _ := chainhash.NewHashFromStr("0440e6594fbde420e9f521f46f9e77792377fc4f73bfcbcdf4f349a88d3b1b4c")
-	tx4, _ := chainhash.NewHashFromStr("88eac6545dae2366f018a364b5fd771076cca8aed7e0068b4bfad94a2d161369")
-	tx5, _ := chainhash.NewHashFromStr("d0f5bcd656d1710f77d2f12bae41d149e1c2e7446cdc07dd7fe9c6c583c200a7")
-	tx6, _ := chainhash.NewHashFromStr("3ea11af032849bb1e7c6e019fd72e2c564a69f89127e6f429c55b3dbc3372d15")
-	return [][]*chainhash.Hash{{tx6, tx3}, {tx5, tx1}, {tx2, tx4}}
+	//tx1, _ := chainhash.NewHashFromStr("838bb8f586b5d1e5e76b77c7372b5ecb263b89a9a218771a65b9e3b88b1d39cd")
+	//tx2, _ := chainhash.NewHashFromStr("6f9722a9ba54ca9bbed06464b8160d64c64fe78095e342993ad333f65f7902b4")
+	//tx3, _ := chainhash.NewHashFromStr("0440e6594fbde420e9f521f46f9e77792377fc4f73bfcbcdf4f349a88d3b1b4c")
+	//tx4, _ := chainhash.NewHashFromStr("88eac6545dae2366f018a364b5fd771076cca8aed7e0068b4bfad94a2d161369")
+	//tx5, _ := chainhash.NewHashFromStr("d0f5bcd656d1710f77d2f12bae41d149e1c2e7446cdc07dd7fe9c6c583c200a7")
+	//tx6, _ := chainhash.NewHashFromStr("3ea11af032849bb1e7c6e019fd72e2c564a69f89127e6f429c55b3dbc3372d15")
+	//return [][]*chainhash.Hash{{tx6, tx3}, {tx5, tx1}, {tx2, tx4}}
+	return pairs
 }

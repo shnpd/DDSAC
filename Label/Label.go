@@ -12,7 +12,8 @@ import (
 func FilterLabel(client *rpcclient.Client, keyH []byte, wh int64) []*chainhash.Hash {
 	var CTs []*chainhash.Hash
 	// 筛选第i个窗口的交易
-	i := int64(24)
+	i, _ := client.GetBlockCount()
+	i = i / 10
 	hb := (i - 1) * wh
 	he := i*wh - 1
 
@@ -23,12 +24,12 @@ func FilterLabel(client *rpcclient.Client, keyH []byte, wh int64) []*chainhash.H
 	NAL := GetAmountFromBlock(client, lb, le)
 	Txs := GetTransFromBlock(client, hb, he)
 	for _, txid := range Txs {
-		transaction, _ := client.GetTransaction(txid)
-		if transaction.Details[0].Category == "immature" || transaction.Details[1].Amount == 50 {
+		tx, _ := client.GetRawTransactionVerbose(txid)
+		if tx.Vin[0].ScriptSig == nil {
 			continue
 		}
-		outAddr := transaction.Details[1].Address
-		amount := int64(transaction.Details[1].Amount) * 1e8
+		outAddr := tx.Vout[0].ScriptPubKey.Address
+		amount := int64(tx.Vout[0].Value * 1e8)
 		index := Crypto.PRF([]byte(outAddr), keyH)
 		bigInt := new(big.Int).SetBytes(index)
 		mod := big.NewInt(int64(len(NAL)))
