@@ -12,8 +12,8 @@ import (
 func FilterLabel(client *rpcclient.Client, keyH []byte, wh int64) []*chainhash.Hash {
 	var CTs []*chainhash.Hash
 	// 筛选第i个窗口的交易
-	i, _ := client.GetBlockCount()
-	i = i / 10
+	//i, _ := client.GetBlockCount()
+	i := int64(8672)
 	hb := (i - 1) * wh
 	he := i*wh - 1
 

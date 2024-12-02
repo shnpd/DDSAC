@@ -5,15 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d4332b89-6196-4d9d-a67f-616a7619f07e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/DDSAC.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/deployment.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/remote-targets.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/webServers.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Label/Label.go" beforeDir="false" afterPath="$PROJECT_DIR$/Label/Label.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Signature/Signature.go" beforeDir="false" afterPath="$PROJECT_DIR$/Signature/Signature.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Test/test.go" beforeDir="false" afterPath="$PROJECT_DIR$/Test/test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TimeCost/ExtractTime/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/TimeCost/ExtractTime/main.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -41,7 +35,7 @@
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
-  &quot;associatedIndex&quot;: -1
+  &quot;associatedIndex&quot;: 7
 }</component>
   <component name="ProjectId" id="2p6HSaRT8I2ZfXQ8cxlSDh5vurj" />
   <component name="ProjectViewState">
@@ -71,7 +65,7 @@
       <window_info id="Space Code Reviews" order="0" />
       <window_info id="Bookmarks" order="1" side_tool="true" />
       <window_info id="Pull Requests" order="2" weight="0.17551738" />
-      <window_info active="true" content_ui="combo" id="Project" order="3" visible="true" weight="0.25721502" />
+      <window_info active="true" content_ui="combo" id="Project" order="3" visible="true" weight="0.29040402" />
       <window_info id="Commit" order="4" />
       <window_info id="Merge Requests" order="5" />
       <window_info id="Learn" order="6" show_stripe_button="false" />
@@ -80,12 +74,12 @@
       <window_info anchor="bottom" id="TODO" order="1" />
       <window_info anchor="bottom" id="Database Changes" order="2" />
       <window_info anchor="bottom" id="File Transfer" order="3" />
-      <window_info active="true" anchor="bottom" id="Run" order="4" visible="true" weight="0.3298636" />
+      <window_info active="true" anchor="bottom" id="Run" order="4" visible="true" weight="0.44058406" />
       <window_info anchor="bottom" id="Problems View" order="5" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="6" visible="true" weight="0.23514602" />
+      <window_info anchor="bottom" id="Terminal" order="6" weight="0.2437186" />
       <window_info anchor="bottom" id="TypeScript" order="7" />
       <window_info anchor="bottom" id="Services" order="8" weight="0.3298636" />
-      <window_info anchor="bottom" id="Debug" order="9" weight="0.3298636" />
+      <window_info anchor="bottom" id="Debug" order="9" show_stripe_button="false" weight="0.31407034" />
       <window_info anchor="right" id="Meet New UI" side_tool="true" />
       <window_info anchor="right" id="Endpoints" order="0" />
       <window_info anchor="right" id="Database" order="1" />
@@ -134,8 +128,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Go Build.go build DDSAC/TimeCost/ExtractTime" />
-        <item itemvalue="Go Build.go build DDSAC/TimeCost/EmbedTime" />
         <item itemvalue="Go Build.go build DDSAC/Test" />
+        <item itemvalue="Go Build.go build DDSAC/TimeCost/EmbedTime" />
         <item itemvalue="Go Build.go build DDSAC/Extract" />
       </list>
     </recent_temporary>
@@ -154,11 +148,6 @@
           <url>file://$PROJECT_DIR$/TimeCost/EmbedTime/main.go</url>
           <line>32</line>
           <option name="timeStamp" value="15" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
-          <url>file://$PROJECT_DIR$/TimeCost/ExtractTime/main.go</url>
-          <line>25</line>
-          <option name="timeStamp" value="25" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
