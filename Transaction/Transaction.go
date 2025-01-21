@@ -51,9 +51,11 @@ func GenerateTrans(sourceAddr, destAddr string, amount int64) (*wire.MsgTx, erro
 	})
 	//	构造输出
 	outAddr, _ := btcutil.DecodeAddress(destAddr, &chaincfg.SimNetParams)
+	changeAddr, _ := btcutil.DecodeAddress(sourceAddr, &chaincfg.SimNetParams)
 	outputs := map[btcutil.Address]btcutil.Amount{
 		//outAddr: btcutil.Amount(amount),
-		outAddr: btcutil.Amount((sourceUTXO.Amount - 0.1) * 1e8),
+		outAddr:    btcutil.Amount(1 * 1e8),
+		changeAddr: btcutil.Amount((sourceUTXO.Amount - 1.2) * 1e8),
 	}
 	//	创建交易
 	rawTx, err := client.CreateRawTransaction(inputs, outputs, nil)
@@ -66,7 +68,7 @@ func GenerateTrans(sourceAddr, destAddr string, amount int64) (*wire.MsgTx, erro
 
 // SignTrans 签名交易，输入的embedMsg为计算签名所使用的随机因子，返回签名后的交易
 func SignTrans(rawTx *wire.MsgTx, embedMsg *[]byte) (*wire.MsgTx, error) {
-	signedTx, complete, err, _ := client.SignRawTransaction(rawTx, embedMsg)
+	signedTx, complete, err := client.SignRawTransaction(rawTx, embedMsg)
 	if err != nil {
 		return nil, fmt.Errorf("error signing transaction: %v", err)
 	}
