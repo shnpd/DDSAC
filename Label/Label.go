@@ -4,16 +4,18 @@ package Label
 import (
 	"DDSAC/Crypto"
 	"fmt"
+	"github.com/btcsuite/btcd/btcjson"
 	"github.com/btcsuite/btcd/chaincfg/chainhash"
 	"github.com/btcsuite/btcd/rpcclient"
 	"math/big"
 )
 
-func FilterLabel(client *rpcclient.Client, keyH []byte, wh int64) []*chainhash.Hash {
-	var CTs []*chainhash.Hash
+// 根据标签筛选交易
+func FilterLabel(client *rpcclient.Client, keyH []byte, wh int64) []*btcjson.TxRawResult {
+	var CTs []*btcjson.TxRawResult
 	// 筛选第i个窗口的交易
-	//i, _ := client.GetBlockCount()
-	i := int64(8672)
+	i, _ := client.GetBlockCount()
+	//i := int64(683912)
 	hb := (i - 1) * wh
 	he := i*wh - 1
 
@@ -22,8 +24,14 @@ func FilterLabel(client *rpcclient.Client, keyH []byte, wh int64) []*chainhash.H
 	le := (i-1)*wh - 1
 
 	NAL := GetAmountFromBlock(client, lb, le)
+	//fmt.Println("NAL Length:", len(NAL))
 	Txs := GetTransFromBlock(client, hb, he)
-	for _, txid := range Txs {
+	//fmt.Println("Txs Length:", len(Txs))
+
+	for i, txid := range Txs {
+		if i%20000 == 0 {
+			//fmt.Println(i)
+		}
 		tx, _ := client.GetRawTransactionVerbose(txid)
 		if tx.Vin[0].ScriptSig == nil {
 			continue
@@ -35,7 +43,7 @@ func FilterLabel(client *rpcclient.Client, keyH []byte, wh int64) []*chainhash.H
 		mod := big.NewInt(int64(len(NAL)))
 		reminder := new(big.Int).Mod(bigInt, mod)
 		if amount == NAL[reminder.Int64()] {
-			CTs = append(CTs, txid)
+			CTs = append(CTs, tx)
 		}
 	}
 	return CTs

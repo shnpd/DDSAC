@@ -26,10 +26,10 @@ var (
 )
 
 func main() {
-	client = Wallet.InitClient("127.0.0.1:28335", "simnet")
+	client = Wallet.InitClient("127.0.0.1:28334", "mainnet")
 	client.WalletPassphrase("ts0", 6000)
 	// afs：输出地址集合
-	var afs []string
+	var afs []string = []string{"1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"}
 	//addresses, _ := client.GetAddressesByAccount("default")
 	//for _, v := range addresses {
 	//	if v.String() == miningAddr {
@@ -39,7 +39,15 @@ func main() {
 	//}
 
 	// lfs：标签集合 300ms
-	//lfs := Label.GenerateLabel(client, afs, keyH, 1)
+	var lfs []int64
+	for i := 0; i < 5; i++ {
+		start := time.Now()
+		lfs = Label.GenerateLabel(client, afs, keyH, 1)
+		dur := time.Since(start)
+		fmt.Println(dur)
+
+	}
+	return
 	//var lfs []int64
 	// 生成源地址对
 	//sourceAddrPair := generateSourceAddrPair(14)

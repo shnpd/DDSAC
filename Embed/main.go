@@ -25,7 +25,7 @@ var (
 )
 
 func main() {
-	client = Wallet.InitClient("127.0.0.1:28335", "simnet")
+	client = Wallet.InitClient("127.0.0.1:28335", "mainnet")
 	// 32byte 密钥对应256bit-AES
 	message := []byte("1234567890123")
 	// Encrypt the message

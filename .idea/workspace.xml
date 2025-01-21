@@ -6,8 +6,21 @@
   <component name="ChangeListManager">
     <list default="true" id="d4332b89-6196-4d9d-a67f-616a7619f07e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Crypto/AES.go" beforeDir="false" afterPath="$PROJECT_DIR$/Crypto/AES.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Crypto/ECC/ECC.go" beforeDir="false" afterPath="$PROJECT_DIR$/Crypto/ECC/ECC.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Crypto/PRF.go" beforeDir="false" afterPath="$PROJECT_DIR$/Crypto/PRF.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Embed/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/Embed/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Key/Prik.go" beforeDir="false" afterPath="$PROJECT_DIR$/Key/Prik.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Label/Label.go" beforeDir="false" afterPath="$PROJECT_DIR$/Label/Label.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Segment/Segment.go" beforeDir="false" afterPath="$PROJECT_DIR$/Segment/Segment.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Signature/Signature.go" beforeDir="false" afterPath="$PROJECT_DIR$/Signature/Signature.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/TimeCost/EmbedTime/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/TimeCost/EmbedTime/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TimeCost/ExtractTime/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/TimeCost/ExtractTime/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Transaction/Transaction.go" beforeDir="false" afterPath="$PROJECT_DIR$/Transaction/Transaction.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TransferTest/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/TransferTest/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fileoperator/operator.go" beforeDir="false" afterPath="$PROJECT_DIR$/fileoperator/operator.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,6 +73,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Go Build.go build DDSAC/TimeCost/EmbedTime.executor": "Run",
+    "Go Build.go build DDSAC/TimeCost/ExtractTime.executor": "Debug",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
@@ -114,7 +128,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Go Build.go build DDSAC/TimeCost/EmbedTime">
+  <component name="RunManager" selected="Go Build.go build DDSAC/TimeCost/ExtractTime">
     <configuration name="go build DDSAC/Extract" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="DDSAC" />
       <working_directory value="$PROJECT_DIR$" />
@@ -153,8 +167,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Build.go build DDSAC/TimeCost/EmbedTime" />
         <item itemvalue="Go Build.go build DDSAC/TimeCost/ExtractTime" />
+        <item itemvalue="Go Build.go build DDSAC/TimeCost/EmbedTime" />
         <item itemvalue="Go Build.go build DDSAC/Test" />
         <item itemvalue="Go Build.go build DDSAC/Extract" />
       </list>
@@ -180,13 +194,23 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/TimeCost/EmbedTime/main.go</url>
-          <line>112</line>
+          <line>120</line>
           <option name="timeStamp" value="19" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/TimeCost/EmbedTime/main.go</url>
-          <line>52</line>
+          <line>60</line>
           <option name="timeStamp" value="20" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/TimeCost/ExtractTime/main.go</url>
+          <line>37</line>
+          <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/TimeCost/ExtractTime/main.go</url>
+          <line>29</line>
+          <option name="timeStamp" value="23" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

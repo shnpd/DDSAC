@@ -47,8 +47,8 @@ func getsigFromHex(HexSig string) (*ecdsa.Signature, error) {
 }
 
 // getSignaruteFromTx 提取交易签名
-func GetSignaruteFromTx(rawTx *btcutil.Tx) *ecdsa.Signature {
-	signatureScript := hex.EncodeToString(rawTx.MsgTx().TxIn[0].SignatureScript)
+func GetSignaruteFromTx(signatureScript string) *ecdsa.Signature {
+	//signatureScript := hex.EncodeToString(rawTx.MsgTx().TxIn[0].SignatureScript)
 	// 不讨论隔离见证的情况
 	if signatureScript == "" {
 		return nil

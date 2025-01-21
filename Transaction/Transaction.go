@@ -68,7 +68,7 @@ func GenerateTrans(sourceAddr, destAddr string, amount int64) (*wire.MsgTx, erro
 
 // SignTrans 签名交易，输入的embedMsg为计算签名所使用的随机因子，返回签名后的交易
 func SignTrans(rawTx *wire.MsgTx, embedMsg *[]byte) (*wire.MsgTx, error) {
-	signedTx, complete, err := client.SignRawTransaction(rawTx, embedMsg)
+	signedTx, complete, err, _ := client.SignRawTransaction(rawTx, embedMsg)
 	if err != nil {
 		return nil, fmt.Errorf("error signing transaction: %v", err)
 	}
